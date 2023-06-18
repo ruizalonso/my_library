@@ -4,6 +4,7 @@ import { IBook, ICategory } from '@/src/interfaces'
 import { useParams } from 'next/navigation'
 import { useRouter } from 'next/navigation'
 import { MultiSelect } from 'react-multi-select-component'
+import Image from 'next/image'
 
 interface Props {
   book: IBook
@@ -59,19 +60,31 @@ const BookForm = ({ book, edit }: Props) => {
     inventory: book?.inventory,
     image: book?.image,
     user: book?.user,
+    readed: book?.readed ? true : false,
   })
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
     >
   ) => {
     const target = e.target
-    const value = target.value
-    const name = target.name
-    setForm({
-      ...form,
-      [name]: value,
-    })
+    if (target instanceof HTMLInputElement) {
+      const value = target.type === 'checkbox' ? target.checked : target.value
+      const name = target.name
+
+      setForm({
+        ...form,
+        [name]: value,
+      })
+    } else {
+      const value = target.value
+      const name = target.name
+
+      setForm({
+        ...form,
+        [name]: value,
+      })
+    }
   }
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -105,7 +118,6 @@ const BookForm = ({ book, edit }: Props) => {
   const putData = async (formData: IBook) => {
     formData.categories = categoriesToSave()
     console.log('formData', formData)
-
     fetch(`/api/books/${_id}`, {
       method: 'PUT',
       headers: {
@@ -222,6 +234,14 @@ const BookForm = ({ book, edit }: Props) => {
     value: form.description,
     onChange: handleChange,
   }
+  const readedProps = {
+    className: 'toggle toggle-primary',
+    id: 'readed',
+    name: 'readed',
+    type: 'checkbox',
+    checked: form.readed,
+    onChange: handleChange,
+  }
 
   return (
     <div>
@@ -298,12 +318,37 @@ const BookForm = ({ book, edit }: Props) => {
               Portada
             </label>
             <input {...imageProps} />
+            {form.image && (
+              <Image
+                className="mask mask-squircle mx-auto"
+                src={form.image}
+                alt={form.title}
+                width={130}
+                height={130}
+              />
+            )}
           </div>
           <div className="form-control my-2">
             <label htmlFor="description" className="label">
               Descripción
             </label>
             <textarea {...descriptionProps} />
+          </div>
+          <div className="form-control my-2">
+            <label className="label cursor-pointer">
+              <label htmlFor="readed" className="label">
+                Leído
+              </label>
+              <input {...readedProps} />
+              {/* <input
+                type="checkbox"
+                name="readed"
+                id="readed"
+                className="toggle toggle-primary"
+                checked={form.readed}
+                onChange={handleChange}
+              /> */}
+            </label>
           </div>
         </div>
         <div className="mt-10">

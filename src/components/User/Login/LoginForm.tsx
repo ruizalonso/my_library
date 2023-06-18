@@ -2,33 +2,38 @@
 import { IAuth } from '@/src/interfaces'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { signIn } from 'next-auth/react'
 // import { Link, useNavigate } from 'react-router-dom'
 // import useNotification from '../../hooks/useNotify'
 
 export default function LoginForm() {
+  const signInerros = ['CredentialsSignin']
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
+  const [loading, setLoading] = useState<boolean>(false)
   //   const [notification, showNotification] = useNotification()
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setLoading(true)
     e.preventDefault()
     const email = emailRef.current?.value
     const password = passwordRef.current?.value
     try {
       if (email && password) {
         const loginRes = await loginUser({ email, password })
-        if (loginRes && !loginRes.ok) {
-          console.log(loginRes.error)
+        if (loginRes?.error) {
+          throw new Error()
         }
+        console.log(loginRes)
+        setLoading(false)
         router.push('/books')
-        console.log('loginRes', loginRes)
       } else {
         throw new Error()
       }
     } catch (error) {
+      setLoading(false)
       console.log(error)
     }
   }
@@ -39,7 +44,6 @@ export default function LoginForm() {
       email,
       password,
     })
-
     return res
   }
 
@@ -84,8 +88,13 @@ export default function LoginForm() {
           </div>
 
           <div>
-            <button type="submit" className="btn btn-primary btn-block">
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              disabled={loading}
+            >
               Login
+              {loading && <span className="loading loading-spinner"></span>}
             </button>
           </div>
         </form>

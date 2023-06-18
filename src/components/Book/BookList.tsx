@@ -52,6 +52,7 @@ const BookList = ({ books }: Props) => {
                   <th>Nombre</th>
                   <th>Género</th>
                   <th>Precio</th>
+                  <th>Leído</th>
                   <th></th>
                 </tr>
               </thead>
@@ -61,6 +62,7 @@ const BookList = ({ books }: Props) => {
                   <th>Nombre</th>
                   <th>Género</th>
                   <th>Precio</th>
+                  <th>Leído</th>
                   <th></th>
                 </tr>
               </tfoot>

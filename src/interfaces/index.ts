@@ -16,6 +16,7 @@ export interface IBook {
   inventory: number
   image: string
   user: ObjectId
+  readed: boolean
 }
 export interface IUser extends IAuth {
   name: string

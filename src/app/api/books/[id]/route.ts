@@ -12,13 +12,14 @@ export async function PUT(req: Request, { params }: any) {
   const user: any = session?.user
   const data: IBook = await req.json()
   data.user = user._id
-  console.log(data)
-
+  console.log('data', data)
+  
   try {
     const book = await BookModel.findByIdAndUpdate(_id, data, {
       new: true,
       runValidators: true,
     })
+    console.log('book', book)
     if (!book) {
       return NextResponse.json({ error: 'Not found' }, { status: 401 })
     }

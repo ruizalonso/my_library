@@ -1,5 +1,5 @@
 import mongoose, { Schema, Types, model, Model } from 'mongoose'
-import { IBook, ICategory } from '@/src/interfaces'
+import { IBook } from '@/src/interfaces'
 
 const BookSchema = new Schema<IBook>(
   {
@@ -14,6 +14,7 @@ const BookSchema = new Schema<IBook>(
     inventory: { type: Number, required: true },
     image: { type: String, required: true },
     user: { type: Types.ObjectId, required: true },
+    readed: { type: Boolean, required: true },
   },
   {
     versionKey: false,

@@ -7,7 +7,7 @@ interface Props {
   book: IBook
 }
 const BookItem = ({ book }: Props) => {
-  const { _id: id, image, title, categories, author, price } = book
+  const { _id: id, image, title, categories, author, price, readed } = book
   const formatterCurrency = new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP',
@@ -37,6 +37,24 @@ const BookItem = ({ book }: Props) => {
         })}
       </td>
       <td>{formatterCurrency.format(price)}</td>
+      <td>
+        {readed && (
+          <input
+            type="checkbox"
+            checked={true}
+            className="checkbox checkbox-primary"
+            disabled={true}
+          />
+        )}
+        {!readed && (
+          <input
+            type="checkbox"
+            checked={false}
+            className="checkbox checkbox-primary"
+            disabled={true}
+          />
+        )}
+      </td>
       <th>
         <Link href={`/books/${id}`} className="btn btn-ghost btn-xs">
           detalles
