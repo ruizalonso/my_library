@@ -15,9 +15,8 @@ const BookList = ({ books }: Props) => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [searchValue, setSearchValue] = useState<string>('')
   const filteredItems = searchValue
-    ? books.filter(
-        (book) =>
-          book.title.toLowerCase().includes(searchValue.toLowerCase())
+    ? books.filter((book) =>
+        book.title.toLowerCase().includes(searchValue.toLowerCase())
       )
     : books
   const startIndex = (currentPage - 1) * pageSize
@@ -34,63 +33,58 @@ const BookList = ({ books }: Props) => {
 
   return (
     <>
+      <div className="flex justify-center my-5">
+        <Link href={'/books/new'} className="btn btn-circle">
+          <PlusCircleIcon className="h-5 w-5" aria-hidden="true" />
+        </Link>
+      </div>
+      <SearchBook searchValue={searchValue} setSearchValue={setSearchValue} />
       <div className="overflow-x-auto w-full">
-        <div className="flex justify-center my-5">
-          <Link href={'/books/new'} className="btn btn-circle">
-            <PlusCircleIcon className="h-5 w-5" aria-hidden="true" />
-          </Link>
-        </div>
-        <div className="">
-          <SearchBook
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-          {lisItems.length > 0 && (
-            <table className="table w-full">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Género</th>
-                  <th>Precio</th>
-                  <th>Leído</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>{lisItems}</tbody>
-              <tfoot>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Género</th>
-                  <th>Precio</th>
-                  <th>Leído</th>
-                  <th></th>
-                </tr>
-              </tfoot>
-            </table>
-          )}
-          {lisItems.length === 0 && (
-            <div className="text-center">
-              <p>
-                No se encontraron libros que coincidan con{' '}
-                <span className="font-medium underline underline-offset-4">
-                  {searchValue}
-                </span>
-              </p>
-            </div>
-          )}
-          <div className="join flex justify-center mt-10">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                className="oin-item btn btn-outline btn-sm mx-1"
-                key={index + 1}
-                onClick={() => handlePageChange(index + 1)}
-                disabled={currentPage === index + 1}
-              >
-                {index + 1}
-              </button>
-            ))}
+        {lisItems.length > 0 && (
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Género</th>
+                <th>Precio</th>
+                <th>Leído</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>{lisItems}</tbody>
+            <tfoot>
+              <tr>
+                <th>Nombre</th>
+                <th>Género</th>
+                <th>Precio</th>
+                <th>Leído</th>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+        )}
+        {lisItems.length === 0 && (
+          <div className="text-center">
+            <p>
+              No se encontraron libros que coincidan con{' '}
+              <span className="font-medium underline underline-offset-4">
+                {searchValue}
+              </span>
+            </p>
           </div>
-        </div>
+        )}
+      </div>
+      <div className="join flex justify-center mt-10">
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            className="oin-item btn btn-outline btn-sm mx-1"
+            key={index + 1}
+            onClick={() => handlePageChange(index + 1)}
+            disabled={currentPage === index + 1}
+          >
+            {index + 1}
+          </button>
+        ))}
       </div>
     </>
   )
