@@ -1,5 +1,4 @@
 import BookForm from '@/src/components/Book/BookForm'
-import { IBook } from '@/src/interfaces'
 import React from 'react'
 
 export const metadata = {
@@ -17,6 +16,7 @@ const book = {
   inventory: 0,
   image: '',
   user: '',
+  readed: false,
 }
 function Book() {
   return <BookForm book={book} edit={false} />
