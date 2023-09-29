@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   try {
     const book = new BookModel(data)
     await book.save()
-    await disconnect()
+    
     return NextResponse.json({ data: book }, { status: 200 })
   } catch (error: any) {
     console.log('error', error)
