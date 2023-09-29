@@ -31,14 +31,13 @@ export const authOptions: NextAuthOptions = {
         const user = await UserModel.findOne({
           email: credentials?.email,
         }).select('+password')
-        console.log('user auth', user)
 
         if (!user || !(await compare(credentials.password, user.password))) {
           return null
         }
 
         return {
-          _id: user._id as Types.ObjectId,
+          id: user._id as unknown as string,
           email: user.email,
           name: user.name,
         }
