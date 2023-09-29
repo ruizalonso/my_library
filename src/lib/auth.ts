@@ -40,7 +40,7 @@ export const authOptions: NextAuthOptions = {
           id: user._id as unknown as string,
           email: user.email,
           name: user.name,
-        }
+        } as any
       },
     }),
   ],
